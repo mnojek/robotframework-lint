@@ -1,11 +1,12 @@
 from robot.libraries.BuiltIn import BuiltIn
 
+
 def create_a_test_suite(filename, *args):
     '''Create a test suite file that mirrors the input
 
     This creates a test suite file in pipe-separated format.
     The input needs to include explicit newlines for each line,
-    and variables must be escaped. 
+    and variables must be escaped.
 
     If you want literal variables or comments, you must escape
     the $ and/or #
@@ -21,12 +22,11 @@ def create_a_test_suite(filename, *args):
     | | ... | | ... | \n
     | | ... | | ... | blah blah blah\n
     | | ... | | log | hello from \${TEST NAME}\n
-
     '''
     suite = args[0]
-    # In order to make it as easy as possible to create and read 
+    # In order to make it as easy as possible to create and read
     # the test, we don't require that the caller escape the
-    # pipes. So, we have to insert literal pipes between each 
+    # pipes. So, we have to insert literal pipes between each
     # argument, and add a leading pipe after each newline.
     for arg in args[1:]:
 
@@ -46,5 +46,3 @@ def create_a_test_suite(filename, *args):
         f.write(suite)
 
     return suite
-
-    
