@@ -175,7 +175,7 @@ class RobotFile(object):
 
             matcher = Matcher(re.IGNORECASE)
             for linenumber, raw_text in enumerate(f.readlines()):
-                linenumber += 1; # start counting at 1 rather than zero
+                linenumber += 1  # start counting at 1 rather than zero
 
                 # this mimics what the robot TSV reader does --
                 # it replaces non-breaking spaces with regular spaces,
@@ -311,29 +311,35 @@ class ResourceFile(RobotFile):
                 for statement in table.statements:
                     yield statement
 
+
 class TestcaseTable(AbstractContainerTable):
     _childClass = Testcase
+
     def __init__(self, parent, *args, **kwargs):
         super(TestcaseTable, self).__init__(parent, *args, **kwargs)
         self.testcases = self._children
 
+
 class KeywordTable(AbstractContainerTable):
     _childClass = Keyword
+
     def __init__(self, parent, *args, **kwargs):
         super(KeywordTable, self).__init__(parent, *args, **kwargs)
         self.keywords = self._children
+
 
 @timeit
 def dump(suite):
     result = []
     for table in suite.tables:
-#        print "table:", table
-#        for row in table.rows:
-#            print "=>", row
+        #        print "table:", table
+        #        for row in table.rows:
+        #            print "=>", row
         if isinstance(table, TestcaseTable):
             for tc in table.testcases:
                 # force parsing of individual steps
                 steps = [step for step in tc.steps]
+
 
 if __name__ == "__main__":
     from robot.parsing import TestData, ResourceFile

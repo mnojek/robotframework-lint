@@ -1,5 +1,5 @@
-# Does this need to be in its own file, or can I combine 
-# testcase and keyword into one file? 
+# Does this need to be in its own file, or can I combine
+# testcase and keyword into one file?
 from .common import RobotStatements
 
 

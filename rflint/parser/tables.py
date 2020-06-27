@@ -67,7 +67,7 @@ class SimpleTableMixin(object):
             statements.append(current_statement)
 
         # trim trailing blank statements
-        while (len(statements[-1]) == 0 or 
+        while (len(statements[-1]) == 0 or
                ((len(statements[-1]) == 1) and len(statements[-1][0]) == 0)):
             statements.pop()
         return statements
@@ -99,9 +99,9 @@ class AbstractContainerTable(RobotTable):
                 row.dump()
 
     def append(self, row):
-        ''' 
-        The idea is, we recognize when we have a new testcase by 
-        checking the first cell. If it's not empty and not a comment, 
+        '''
+        The idea is, we recognize when we have a new testcase by
+        checking the first cell. If it's not empty and not a comment,
         we have a new test case.
 
         '''
@@ -109,7 +109,7 @@ class AbstractContainerTable(RobotTable):
             # blank line. Should we throw it away, or append a BlankLine object?
             return
 
-        if (row[0] != "" and 
+        if (row[0] != "" and
             (not row[0].lstrip().startswith("#"))):
             # we have a new child table
             self._children.append(self._childClass(self.parent, row.linenumber, row[0]))
@@ -118,10 +118,10 @@ class AbstractContainerTable(RobotTable):
                 # keyword name -- also has the first logical row of cells.
                 # We'll create a Row, but we'll make the first cell empty instead
                 # of leaving the name in it, since other code always assumes the
-                # first cell is empty. 
+                # first cell is empty.
                 #
-                # To be honest, I'm not sure this is the Right Thing To Do, but 
-                # I'm too lazy to audit the code to see if it matters if we keep 
+                # To be honest, I'm not sure this is the Right Thing To Do, but
+                # I'm too lazy to audit the code to see if it matters if we keep
                 # the first cell intact. Sorry if this ends up causing you grief
                 # some day...
                 row[0] = ""
