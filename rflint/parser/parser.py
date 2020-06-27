@@ -53,6 +53,7 @@ def RobotFactory(path, parent=None):
         rf.__class__ = ResourceFile
         return rf
 
+
 class SuiteFolder(object):
     def __init__(self, path, parent=None):
 
@@ -67,7 +68,6 @@ class SuiteFolder(object):
             if os.path.exists(os.path.join(self.path, filename)):
                 self.initfile = RobotFile(os.path.join(self.path, filename))
                 break
-
 
     def walk(self, *types):
         '''
@@ -118,6 +118,7 @@ class RobotFile(object):
       trailing spaces
 
     '''
+
     def __init__(self, path, parent=None):
         self.parent = parent
         self.name = os.path.splitext(os.path.basename(path))[0]
@@ -156,7 +157,6 @@ class RobotFile(object):
                 yield keyword
 
     def _load(self, path):
-
         '''
         The general idea is to do a quick parse, creating a list of
         tables. Each table is nothing more than a list of rows, with
@@ -298,6 +298,7 @@ class SuiteFile(RobotFile):
                     if statement[0] != "":
                         yield statement
 
+
 class ResourceFile(RobotFile):
     def __repr__(self):
         return "<ResourceFile(%s)>" % self.path
@@ -351,6 +352,7 @@ if __name__ == "__main__":
             suite = ResourceFile(source=sys.argv[1])
         return suite
 
+
     @timeit
     def test_mine():
         suite = RobotFile(sys.argv[1])
@@ -359,6 +361,7 @@ if __name__ == "__main__":
             statements = tc.statements
             tags = tc.tags
         return suite
+
 
     if len(sys.argv) == 1:
         print("give me a filename on the command line")

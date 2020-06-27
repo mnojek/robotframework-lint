@@ -12,6 +12,7 @@ def main(args=None):
         sys.stderr.write(str(e) + "\n")
         return 1
 
+
 if __name__ == "__main__":
     if len(sys.argv) == 1:
         sys.argv.append("--help")

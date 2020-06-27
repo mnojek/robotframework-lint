@@ -2,6 +2,7 @@ from __future__ import print_function
 
 from .common import Statement
 
+
 class RobotTable(object):
     '''A table made up of zero or more rows'''
     def __init__(self, parent, linenumber=0, name=None, header=None):
@@ -27,6 +28,7 @@ class RobotTable(object):
 
     def __repr__(self):
         return "<%s(linenumbmer=%s, name=\"%s\")>" % (self.__class__.__name__, self.linenumber, self.name)
+
 
 class SimpleTableMixin(object):
     '''Mixin to handle simple tables (tables other than keywords and tests)'''
@@ -70,15 +72,18 @@ class SimpleTableMixin(object):
             statements.pop()
         return statements
 
+
 class DefaultTable(RobotTable): pass  # the table with no name
 class UnknownTable(RobotTable): pass  # a table with an unknown header
 class SettingTable(RobotTable, SimpleTableMixin): pass
 class VariableTable(RobotTable): pass
 class MetadataTable(RobotTable): pass
 
+
 class AbstractContainerTable(RobotTable):
     '''Parent class of Keyword and Testcase tables'''
     _childClass = None
+
     def __init__(self, parent, *args, **kwargs):
         if self._childClass is None:
             # hey! Don't try to instantiate this class directly.
@@ -132,5 +137,3 @@ class AbstractContainerTable(RobotTable):
             # another row for the testcase
             if len(row.cells) > 0:
                 self._children[-1].append(row.linenumber, row.raw_text, row.cells)
-
-

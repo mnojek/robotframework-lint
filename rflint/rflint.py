@@ -76,8 +76,7 @@ class RfLint(object):
 
     @property
     def all_rules(self):
-        all = self.suite_rules + self.resource_rules + self.testcase_rules + self.keyword_rules + self.general_rules
-        return all
+        return self.suite_rules + self.resource_rules + self.testcase_rules + self.keyword_rules + self.general_rules
 
     def run(self, args):
         """Parse command line arguments, and run rflint"""
@@ -100,7 +99,7 @@ class RfLint(object):
             self._describe_rules(self.args.args)
             return 0
 
-        self.counts = { ERROR: 0, WARNING: 0, "other": 0}
+        self.counts = {ERROR: 0, WARNING: 0, "other": 0}
 
         for filename in self.args.args:
             if not (os.path.exists(filename)):

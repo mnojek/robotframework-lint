@@ -3,6 +3,7 @@ from __future__ import print_function
 import time
 import re
 
+
 class Matcher(object):
     '''A convenience class for regular expression matching
 
@@ -38,4 +39,3 @@ def timeit(func):
         print(func.__name__, ":", int(1000*(t2-t1)), "ms")
         return res
     return wrapper
-
