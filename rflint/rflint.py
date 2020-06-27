@@ -101,6 +101,13 @@ class RfLint(object):
 
         self.counts = {ERROR: 0, WARNING: 0, "other": 0}
 
+        self.filetypes = [f".{ft}" for ft in self.args.filetypes.split(',')]
+        supported_file_types = [".robot", ".resource", ".tsv"]
+        for ft in self.filetypes:
+            if ft not in supported_file_types:
+                sys.stderr.write(f"rflint: File extension {ft} is not supported")
+                return -1
+
         for filename in self.args.args:
             if not (os.path.exists(filename)):
                 sys.stderr.write("rflint: %s: No such file or directory\n" % filename)
@@ -143,7 +150,7 @@ class RfLint(object):
     def _process_files(self, folder, filenames):
         for filename in filenames:
             name, ext = os.path.splitext(filename)
-            if ext.lower() in (".robot", ".tsv", ".resource"):
+            if ext.lower() in self.filetypes:
                 self._process_file(os.path.join(folder, filename))
 
     def _process_file(self, filename):
@@ -249,7 +256,7 @@ class RfLint(object):
             prog="python -m rflint",
             description="A static analyzer for robot framework plain text files.",
             formatter_class=argparse.RawDescriptionHelpFormatter,
-            epilog = (
+            epilog=(
                 "You can use 'all' in place of RULENAME to refer to all rules. \n"
                 "\n"
                 "For example: '--ignore all --warn DuplicateTestNames' will ignore all\n"
@@ -264,7 +271,7 @@ class RfLint(object):
                 "standard robot framework argument files\n"
                 "\n"
                 "If you give a directory as an argument, all files in the directory\n"
-                "with the suffix .txt, .robot, .resource, or .tsv will be processed. \n"
+                "with the suffix .robot, .resource, or .tsv will be processed. \n"
                 "With the --recursive option, subfolders within the directory will \n"
                 "also be processed."
                 )
@@ -276,15 +283,18 @@ class RfLint(object):
         parser.add_argument("--warning", "-w", metavar="RULENAME", action=SetWarningAction,
                             help="Assign a severity of WARNING for the given RULENAME")
         parser.add_argument("--list", "-l", action="store_true",
-                            help="show a list of known rules and exit")
+                            help="Show a list of known rules and exit")
         parser.add_argument("--describe", "-d", action="store_true",
-                            help="describe the given rules")
+                            help="Sescribe the given rules")
         parser.add_argument("--no-filenames", action="store_false", dest="print_filenames",
                             default=True,
-                            help="suppress the printing of filenames")
+                            help="Suppress the printing of filenames")
         parser.add_argument("--format", "-f",
                             help="Define the output format",
                             default='{severity}: {linenumber}, {char}: {message} ({rulename})')
+        parser.add_argument("--filetypes", "-t",
+                            help="Select file extensions to scan separated by comma",
+                            default='robot,resource,tsv')
         parser.add_argument("--version", action="store_true", default=False,
                             help="Display version number and exit")
         parser.add_argument("--verbose", "-v", action="store_true", default=False,
@@ -294,9 +304,9 @@ class RfLint(object):
         parser.add_argument("--recursive", "-r", action="store_true", default=False,
                             help="Recursively scan subfolders in a directory")
         parser.add_argument("--rulefile", "-R", action=RulefileAction,
-                            help="import additional rules from the given RULEFILE")
+                            help="Import additional rules from the given RULEFILE")
         parser.add_argument("--argumentfile", "-A", action=ArgfileLoader,
-                            help="read arguments from the given file")
+                            help="Read arguments from the given file")
         parser.add_argument('args', metavar="file", nargs=argparse.REMAINDER)
 
         # create a custom namespace, in which we can store a reference to

@@ -62,12 +62,9 @@ class SuiteFolder(object):
         self.name = os.path.splitext(os.path.basename(path))[0]
         self.initfile = None
 
-        # see if there's an initialization file. If so,
-        # attempt to load it
-        for filename in ("__init__.robot", "__init__.txt"):
-            if os.path.exists(os.path.join(self.path, filename)):
-                self.initfile = RobotFile(os.path.join(self.path, filename))
-                break
+        # see if there's an initialization file. If so, attempt to load it
+        if os.path.exists(os.path.join(self.path, "__init__.robot")):
+            self.initfile = RobotFile(os.path.join(self.path, "__init__.robot"))
 
     def walk(self, *types):
         '''
@@ -89,7 +86,7 @@ class SuiteFolder(object):
 
     @property
     def robot_files(self):
-        '''Return a list of all folders, and test suite files (.txt, .robot)
+        '''Return a list of all folders, and test suite files
         '''
         result = []
         for name in os.listdir(self.path):
@@ -97,9 +94,7 @@ class SuiteFolder(object):
             if os.path.isdir(fullpath):
                 result.append(RobotFactory(fullpath, parent=self))
             else:
-                if ((name.endswith(".txt") or name.endswith(".robot")) and
-                    (name not in ("__init__.txt", "__init__.robot"))):
-
+                if name.endswith(".robot") and name != "__init__.robot":
                     result.append(RobotFactory(fullpath, parent=self))
         return result
 
@@ -116,7 +111,6 @@ class RobotFile(object):
     - A Row object contains a list of cells.
     - A cell is all of the data between pipes, stripped of leading and
       trailing spaces
-
     '''
 
     def __init__(self, path, parent=None):
@@ -144,7 +138,6 @@ class RobotFile(object):
 
             robot_file = RobotFactory(...)
             for testcase in robot_file.walk(Testcase): ...
-
         '''
         requested = types if len(types) > 0 else [Testcase, Keyword]
 
