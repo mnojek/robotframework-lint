@@ -143,7 +143,7 @@ class RfLint(object):
     def _process_files(self, folder, filenames):
         for filename in filenames:
             name, ext = os.path.splitext(filename)
-            if ext.lower() in (".robot", ".txt", ".tsv", ".resource"):
+            if ext.lower() in (".robot", ".tsv", ".resource"):
                 self._process_file(os.path.join(folder, filename))
 
     def _process_file(self, filename):
